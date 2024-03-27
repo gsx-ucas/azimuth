@@ -719,10 +719,10 @@ AzimuthReference <- function(
   if (length(x = levels(x = object[[refAssay]])) != 1) {
     stop("refAssay (", refAssay, ") should contain a single SCT model.")
   }
-  
+
   suppressWarnings(expr = object[["refUMAP"]] <- object[[refUMAP]])
   suppressWarnings(expr = object[["refDR"]] <- object[[refDR]])
-  
+
   # Calculate the Neighbors
   object <- FindNeighbors(
     object = object,
@@ -755,7 +755,7 @@ AzimuthReference <- function(
   # Add the "ori.index" column.
   ori.index <- ori.index %||% match(Cells(x = object), Cells(x = object[["refUMAP"]]))
   object$ori.index <- ori.index
-  
+
   # Subset the features of the RNA assay
   DefaultAssay(object = object) <- refAssay
   object[[refAssay]] <- subset(x = object[[refAssay]], features = features)
@@ -779,20 +779,12 @@ AzimuthReference <- function(
   DefaultAssay(object = object) <- "refAssay"
   DefaultAssay(object = object[["refDR"]]) <- "refAssay"
   Tool(object = object) <- ad
-  tool.name <- as.character(x = sys.calls())
-  tool.name <- lapply(
-    X = strsplit(x = tool.name, split = "(", fixed = TRUE), 
-    FUN = "[", 
-    1
-  )[[1]]
-  if (tool.name != "AzimuthReference") {
-    slot(object, name = "tools")["AzimuthReference"] <- slot(object, name = "tools")[tool.name]
-    slot(object, name = "tools")[tool.name] <- NULL
-  }
-  object <- DietSeurat(object = object, 
-                       counts = FALSE, 
-                       assays = c("refAssay", assays), 
-                       dimreducs = c("refDR", "refUMAP"))
+  object <- DietSeurat(
+    object = object,
+    counts = FALSE,
+    assays = c("refAssay", assays),
+    dimreducs = c("refDR","refUMAP")
+  )
   ValidateAzimuthReference(object = object)
   return(object)
 }
