@@ -34,7 +34,7 @@ RunAzimuth.Seurat <- function(
   k.weight = 50,
   n.trees = 20,
   mapping.score.k = 100, 
-  homolog.table = "https://seurat.nygenome.org/azimuth/references/homologs.rds"
+  homolog.table = "https://seurat.nygenome.org/azimuth/references/homologs.rds",
   ...
 ) {
   CheckDots(...)
