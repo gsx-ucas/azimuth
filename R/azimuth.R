@@ -10,6 +10,8 @@ NULL
 #' @param umap.name name of umap reduction in the returned object
 #' @param do.adt transfer ADT assay
 #' @param assay query assay name
+#' @param homolog.table Location of file (or URL) containing table with
+#' human/mouse homologies
 #'
 #' @return Seurat object with reference reductions and annotations
 #'
@@ -32,6 +34,7 @@ RunAzimuth.Seurat <- function(
   k.weight = 50,
   n.trees = 20,
   mapping.score.k = 100, 
+  homolog.table = "https://seurat.nygenome.org/azimuth/references/homologs.rds"
   ...
 ) {
   CheckDots(...)
@@ -100,7 +103,7 @@ RunAzimuth.Seurat <- function(
     query <- ConvertGeneNames(
       object = query,
       reference.names = rownames(x = reference),
-      homolog.table = 'https://seurat.nygenome.org/azimuth/references/homologs.rds'
+      homolog.table = homolog.table
     )
     
     # Calculate nCount_RNA and nFeature_RNA if the query does not
